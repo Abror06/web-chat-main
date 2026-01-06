@@ -1,0 +1,78 @@
+spring:
+  application:
+    name: web-chat
+  profiles:
+    active: local
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: "777347367620-igmp16enj3i75sqjcrg98u8n6vcnlftj.apps.googleusercontent.com"
+            client-secret: "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"
+            scope: profile, email
+            redirect-uri: "{baseUrl}/login/oauth2/code/google"
+            authorization-grant-type: authorization_code
+            client-name: Google
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    cache: false
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+management:
+  info:
+    java:
+      enabled: true
+    git:
+      enabled: true
+      mode: full
+  endpoint:
+    health:
+      show-details: always
+    prometheus:
+      enabled: true
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+application:
+  security:
+    jwt:
+      secret-key: "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970"
+      expiration: 86400000 # a day
+      refresh-token-expiration: 604800000 # 7 days
+
+aes:
+  master-key: "mZD7aRjBq+XlVcU5UBfz8LFIDWmD+GrIel6G2pFFxM0="
+auth:
+  with-cookies: true

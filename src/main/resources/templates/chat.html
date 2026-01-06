@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Chat</title>
+    <link rel="stylesheet" th:href="@{/main.css}" />
+</head>
+<body>
+<div id="root">
+    <div class="app__container">
+        <div class="sidebar">
+            <div class="sidebar__header">Personal</div>
+            <div class="search__bar">
+            <label for="searchInput" class="search__label"></label>
+            <input type="text" class="search__input" placeholder="Search..." id="searchInput"/>
+            </div>
+            <div class="contacts__list" id="contactsList">
+                <!-- Contacts will be dynamically loaded here -->
+            </div>
+        </div>
+
+        <div class="chat__section">
+            <div class="chat__header" id="chatHeader">Select a contact to start chatting</div>
+            <div class="messages__area" id="messagesArea">
+                <!-- Messages will be dynamically loaded here -->
+            </div>
+            <div class="input__area">
+                <input type="text" class="input__field" id="messageInput" placeholder="Type a message..." />
+                <input type="file" id="fileInput" style="display: none;" />
+                <button class="sticker__button" id="stickerButton">📎</button>
+                <button class="send__button" id="sendButton">Send</button>
+            </div>
+        </div>
+
+        <div class="right-sidebar">
+            <div class="right-sidebar__header">Contact Info</div>
+            <div class="contact__details" id="contactDetails">
+                <div class="contact__details-avatar" id="partnerAvatar"></div>
+                <div class="contact__details-name" id="contactName">Select a contact</div>
+                <p>Email: <span id="contactEmail">-</span></p>
+                <p>Phone: <span id="contactPhone">-</span></p>
+            </div>
+            <div class="contact__buttons" id="contactButtons">
+                <button class="contact__button" id="addContactButton">Add Contact</button>
+                <button class="contact__button" id="editContactButton">Edit Contact</button>
+                <button class="contact__button" id="deleteContactButton">Delete Contact</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const accessToken = localStorage.getItem('accessToken');
+        if (!accessToken) {
+            handleUnauthenticated();
+            return;
+        }
+
+        // Initialize app
+        await loadChats();
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', searchUsers);
+        document.getElementById('sendButton').addEventListener('click', sendMessage);
+        document.getElementById('addContactButton').addEventListener('click', addContact);
+        document.getElementById('editContactButton').addEventListener('click', editContact);
+        document.getElementById('deleteContactButton').addEventListener('click', deleteContact);
+        document.getElementById('stickerButton').addEventListener('click', function() {
+            document.getElementById('fileInput').click(); // Trigger the file input click
+        });
+
+// Optional: Handle the file selection
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const fileName = event.target.files[0]?.name || '';
+            document.getElementById('messageInput').value = fileName ? `Sending: ${fileName}` : ''; // Optional: Update input with file name
+        });
+
+        async function loadChats() {
+            try {
+                const response = await fetch('/api/v1/chats', {
+                    credentials: 'include'
+                });
+                if (response.status === 401) {
+                    console.error('Unauthorized access - redirecting to login');
+                    window.location.href = 'login';
+                    return;
+                }
+
+                if (!response.ok)
+                    throw new Error('Failed to load chats');
+
+                const chats = await response.json();
+                displayChats(chats);
+            } catch (error) {
+                console.error('Error loading chats:', error);
+                handleRequestError();
+            }
+        }
+
+        async function searchUsers() {
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            if (!searchTerm) {
+                await loadChats();
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/v1/users/search?search_term=${searchTerm}&page=0&size=10`, {
+                    credentials: 'include'
+                });
+                if (!response.ok) throw new Error('Failed to search users');
+                const users = await response.json();
+                console.log(users)
+                displaySearchResults(users.content);
+            } catch (error) {
+                console.error('Error searching users:', error);
+                handleRequestError();
+            }
+        }
+
+        function displaySearchResults(users) {
+            const contactsList = document.getElementById('contactsList');
+            contactsList.innerHTML = '';
+            users.forEach(user => {
+                const searchResultItem = document.createElement('div');
+                searchResultItem.classList.add('search-result-item');
+
+                // Container for the search-result details
+                const searchResultDetails = document.createElement('div');
+                searchResultDetails.classList.add('search-result-details');
+
+                // Firstname and lastname (compact and bold)
+                const userName = document.createElement('div');
+                userName.classList.add('search-result-name');
+                userName.textContent = `${user.firstname} ${user.lastname}`;
+
+                // Email in smaller, muted font below the name
+                const userEmail = document.createElement('div');
+                userEmail.classList.add('search-result-email');
+                userEmail.textContent = user.email;
+
+                // Append the name and email to the contact details container
+                searchResultDetails.appendChild(userName);
+                searchResultDetails.appendChild(userEmail);
+
+                // Append the details to the contact item
+                searchResultItem.appendChild(searchResultDetails);
+                searchResultItem.addEventListener('click', () => createChat(user.id));
+                contactsList.appendChild(searchResultItem);
+            });
+        }
+
+        async function createChat(userId) {
+            try {
+                const response = await fetch(`/api/v1/chats/private?partner_id=${userId}`, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                if (!response.ok) throw new Error('Failed to create chat');
+                const chat = await response.json();
+                await loadChat(chat.id);
+            } catch (error) {
+                console.error('Error creating chat:', error);
+                handleRequestError();
+            }
+        }
+
+        async function loadChat(chatId) {
+            try {
+                const [chatResponse, messagesResponse] = await Promise.all([
+                    fetch(`/api/v1/chats/${chatId}`, {
+                        credentials: 'include'
+                    }),
+                    fetch(`/api/v1/messages/chat/${chatId}?page=0&size=50`, {
+                        credentials: 'include'
+                    })
+                ]);
+                if (!chatResponse.ok || !messagesResponse.ok) throw new Error('Failed to load chat details');
+                const [chat, messagesPage] = await Promise.all([
+                    chatResponse.json(),
+                    messagesResponse.json()
+                ]);
+                displayChat(chat, messagesPage.content);
+            } catch (error) {
+                console.error('Error loading chat:', error);
+                handleRequestError();
+            }
+        }
+
+        async function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const fileInput = document.getElementById('fileInput');
+            const messageContent = messageInput.value.trim();
+            const chatId = getCurrentChatId();
+
+            if (!chatId || (!messageContent && !fileInput.files.length)) {
+                alert('Please select a contact, enter a message, or choose a file.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("message", new Blob([JSON.stringify({
+                chat_id: chatId,
+                content: messageContent
+            })], { type: "application/json" }));
+
+            formData.append("attachment", fileInput.files[0]);
+
+            try {
+                const response = await fetch('/api/v1/messages', {
+                    method: 'POST',
+                    credentials: 'include',
+                    body: formData
+                });
+
+                if (!response.ok)
+                    throw new Error('Failed to send message');
+                const sentMessage = await response.json();
+                displayMessage(sentMessage);
+                await loadChats();
+                messageInput.value = ''; // Clear input
+                fileInput.value = ''; // Clear file input
+            } catch (error) {
+                console.error('Error sending message:', error);
+                handleRequestError();
+            }
+        }
+
+        async function addContact() {
+            const newName = prompt('Enter contact name:');
+            if (!newName) {
+                alert('Invalid input.');
+                return;
+            }
+            try {
+                const response = await fetch(`/api/v1/contacts`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name: newName, user_id: getReceiverId()})
+                });
+                if (!response.ok) throw new Error('Failed to add contact');
+                alert('Contact added successfully.');
+                await loadChats(); // Reload contacts
+                await loadChat(getCurrentChatId()); // Reload current chat
+            } catch (error) {
+                console.error('Error updating contact:', error);
+                handleRequestError();
+            }
+        }
+
+        async function editContact() {
+            const partnerId = document.getElementById('partnerAvatar').getAttribute('data-partner-id');
+            const newName = prompt('Enter new name:');
+            if (!partnerId || !newName) {
+                alert('Invalid input.');
+                return;
+            }
+            try {
+                const response = await fetch(`/api/v1/contacts/${partnerId}`, {
+                    method: 'PUT',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name: newName })
+                });
+                if (!response.ok) throw new Error('Failed to update contact');
+                alert('Contact updated successfully.');
+                await loadChats(); // Reload contacts
+                await loadChat(getCurrentChatId()); // Reload current chat
+            } catch (error) {
+                console.error('Error updating contact:', error);
+                handleRequestError();
+            }
+        }
+
+        async function deleteContact() {
+            const partnerAvatar = document.getElementById('partnerAvatar');
+            const partnerId = partnerAvatar.getAttribute('data-partner-id');
+            const confirmDelete = confirm('Are you sure you want to delete this contact?');
+            if (!partnerId || !confirmDelete) return;
+            try {
+                const response = await fetch(`/api/v1/contacts/${partnerId}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+                if (!response.ok) throw new Error('Failed to delete contact');
+                alert('Contact deleted successfully.');
+
+                if (partnerAvatar.hasAttribute('data-partner-id')) {
+                    partnerAvatar.removeAttribute('data-partner-id');
+                }
+
+                clearChat(); // Clear current chat
+                location.reload();
+            } catch (error) {
+                console.error('Error deleting contact:', error);
+                handleRequestError();
+            }
+        }
+
+        function displayChats(chats) {
+            const contactsList = document.getElementById('contactsList');
+            contactsList.innerHTML = '';
+            chats.forEach(chat => {
+                const contactItem = document.createElement('div');
+                contactItem.classList.add('contact__item');
+                contactItem.setAttribute('data-chat-id', chat.id);
+
+                if (chat.partner.contact_id !== undefined) {
+                    document.getElementById('partnerAvatar').setAttribute('data-partner-id', chat.partner.contact_id);
+                }
+
+                contactItem.textContent = chat.partner.name;
+                contactItem.addEventListener('click', () => loadChat(chat.id));
+                contactsList.appendChild(contactItem);
+            });
+        }
+
+        function displayChat(chat, messages) {
+            const partner = chat.partner;
+            document.getElementById('chatHeader').textContent = `Chat with ${partner.name}`;
+            displayMessages(messages);
+            displayPartnerInfo(partner);
+
+            const chatHeader = document.getElementById('chatHeader');
+            chatHeader.setAttribute('data-chat-id', chat.id)
+            chatHeader.setAttribute('receiver-id', partner.user_id)
+        }
+
+        function displayMessages(messages) {
+            const messagesArea = document.getElementById('messagesArea');
+            messagesArea.innerHTML = '';
+            messages.forEach(message => {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.classList.add(message.sent ? 'message--sent' : 'message--received');
+
+
+                if (message.attachment) {
+                    // If message has an attachment, display it with the content as a caption
+                    const attachmentDiv = document.createElement('div');
+                    attachmentDiv.classList.add('message__attachment');
+
+                    // Assuming the attachment is a downloadable file
+                    if (message.attachment.media) {
+                        const mediaElement = document.createElement(message.attachment.type === 'video' ? 'video' : 'img');
+                        mediaElement.src = `/api/v1/messages/${message.id}/download-attachment`;
+                        mediaElement.classList.add('message-media');
+                        mediaElement.alt = message.content; // Optional: Set alt text to the message content
+                        mediaElement.controls = message.attachment.type === 'video'; // Show controls for video
+
+                        // Set styles for proportional display
+                        mediaElement.style.maxWidth = '300px'; // Responsive width
+                        mediaElement.style.height = 'auto'; // Maintain aspect ratio
+
+                        messageDiv.appendChild(mediaElement);
+                    } else {
+                        // If there is no media, show a download link
+                        const attachmentLink = document.createElement('a');
+                        attachmentLink.href = `/api/v1/messages/${message.id}/download-attachment`;
+                        attachmentLink.textContent = "Download file";
+                        attachmentLink.classList.add('attachment-link');
+                        attachmentLink.download = '';
+                        messageDiv.appendChild(attachmentLink);
+                    }
+                    messageDiv.appendChild(attachmentDiv);
+
+                    // Display the message content as a caption for the attachment
+                    const captionDiv = document.createElement('p');
+                    captionDiv.textContent = message.content;  // Treat content as the caption
+                    captionDiv.classList.add('message__caption');
+                    messageDiv.appendChild(captionDiv);
+
+                } else {
+                    // If no attachment, just display the message content as normal
+                    messageDiv.textContent = message.content;
+                }
+
+                messagesArea.appendChild(messageDiv);
+            });
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        }
+
+        function displayPartnerInfo(partner) {
+            const partnerAvatar = document.getElementById('partnerAvatar');
+            const contactName = document.getElementById('contactName');
+            const contactEmail = document.getElementById('contactEmail');
+            const contactPhone = document.getElementById('contactPhone');
+            //buttons
+            const addContactButton = document.getElementById('addContactButton');
+            const editContactButton = document.getElementById('editContactButton');
+            const deleteContactButton = document.getElementById('deleteContactButton');
+
+            if (partner.contact) {
+                // Show edit and delete buttons, hide add button
+                addContactButton.style.display = 'none';
+                editContactButton.style.display = 'inline-block';
+                deleteContactButton.style.display = 'inline-block';
+            } else {
+                // Show add button, hide edit and delete buttons
+                addContactButton.style.display = 'inline-block';
+                editContactButton.style.display = 'none';
+                deleteContactButton.style.display = 'none';
+            }
+
+            contactName.textContent = partner.name;
+            contactEmail.textContent = partner.email || '-';
+            contactPhone.textContent = partner.phone || 'Hidden';
+
+            generateAvatar(partnerAvatar, partner.name);
+            if (partner.contact_id !== undefined) {
+                partnerAvatar.setAttribute('data-partner-id', partner.contact_id);
+            }
+        }
+
+        function displayMessage(message) {
+            const messagesArea = document.getElementById('messagesArea');
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(message.sent ? 'message--sent' : 'message--received');
+            if (message.attachment) {
+                // If message has an attachment, display it with the content as a caption
+                const attachmentDiv = document.createElement('div');
+                attachmentDiv.classList.add('message__attachment');
+
+                // Assuming the attachment is a downloadable file
+                if (message.attachment.media) {
+                    const mediaElement = document.createElement(message.attachment.type === 'video' ? 'video' : 'img');
+                    mediaElement.src = `/api/v1/messages/${message.id}/download-attachment`;
+                    mediaElement.classList.add('message-media');
+                    mediaElement.alt = message.content; // Optional: Set alt text to the message content
+                    mediaElement.controls = message.attachment.type === 'video'; // Show controls for video
+
+                    // Set styles for proportional display
+                    mediaElement.style.maxWidth = '300px'; // Responsive width
+                    mediaElement.style.height = 'auto'; // Maintain aspect ratio
+
+                    messageDiv.appendChild(mediaElement);
+                } else {
+                    // If there is no media, show a download link
+                    const attachmentLink = document.createElement('a');
+                    attachmentLink.href = `/api/v1/messages/${message.id}/download-attachment`;
+                    attachmentLink.textContent = 'Download attachment';
+                    attachmentLink.classList.add('attachment-link');
+                    attachmentLink.download = '';
+                    messageDiv.appendChild(attachmentLink);
+                }
+
+                messageDiv.appendChild(attachmentDiv);
+
+                // Display the message content as a caption for the attachment
+                const captionDiv = document.createElement('p');
+                captionDiv.textContent = message.content;  // Treat content as the caption
+                captionDiv.classList.add('message__caption');
+                messageDiv.appendChild(captionDiv);
+
+            } else {
+                // If no attachment, just display the message content as normal
+                messageDiv.textContent = message.content;
+            }            messagesArea.appendChild(messageDiv);
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        }
+
+        function generateAvatar(avatarElement, name) {
+            const initial = name.charAt(0).toUpperCase();
+            avatarElement.textContent = initial;
+            const colors = ['#af5353', '#237973', '#0a720a', '#726421', '#1A535C'];
+            avatarElement.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function handleUnauthenticated() {
+            window.location.href = '/login';
+        }
+
+        function handleRequestError() {
+            alert('An error occurred. Please try again.');
+        }
+
+        function clearChat() {
+            document.getElementById('chatHeader').textContent = 'Select a contact to start chatting';
+            document.getElementById('messagesArea').innerHTML = '';
+            document.getElementById('contactDetails').innerHTML = '';
+        }
+
+        function getCurrentChatId() {
+            const chatHeader = document.getElementById('chatHeader');
+            return chatHeader.getAttribute('data-chat-id') || null;
+        }
+
+
+        function getReceiverId() {
+            const chatHeader = document.getElementById('chatHeader');
+            return chatHeader.getAttribute('receiver-id') || null;
+        }
+
+        function formatFileSize(bytes) {
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            if (bytes === 0) return '0 Bytes';
+            const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+            return `${(bytes / Math.pow(1024, i)).toFixed(2)} ${sizes[i]}`;
+        }
+    });
+</script>
+</body>
+</html>
