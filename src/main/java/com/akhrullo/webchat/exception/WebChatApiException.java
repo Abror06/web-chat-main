@@ -9,13 +9,6 @@ import static com.akhrullo.webchat.exception.ExceptionMessageKey.RECEIVER_NOT_FO
 import static com.akhrullo.webchat.exception.ExceptionMessageKey.MESSAGE_NOT_FOUND;
 import static com.akhrullo.webchat.exception.ExceptionMessageKey.ATTACHMENT_NOT_FOUND;
 
-/**
- * Custom exception class for the WebChat API, extending {@link RuntimeException}.
- * This class is used to handle specific error scenarios within the application.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 public class WebChatApiException extends RuntimeException {
 
     public WebChatApiException(String message) {

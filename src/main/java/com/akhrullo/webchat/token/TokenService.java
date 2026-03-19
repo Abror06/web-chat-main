@@ -2,9 +2,6 @@ package com.akhrullo.webchat.token;
 
 import com.akhrullo.webchat.user.User;
 
-/**
- * Interface for token-related operations.
- */
 public interface TokenService {
 
     /**

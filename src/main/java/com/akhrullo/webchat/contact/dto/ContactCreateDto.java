@@ -11,14 +11,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/**
- * Class {@code ContactCreateDto} represents the DTO for creating a contact.
- * It contains the necessary fields that must be provided when adding a new contact.
- * This DTO includes validation constraints to ensure that the required fields are provided.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.1
- */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

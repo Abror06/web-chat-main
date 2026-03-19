@@ -23,14 +23,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-/**
- * Implementation of the {@link AuthenticationService} interface.
- * Provides methods for user registration, authentication, token generation, and refresh.
- * Handles token management and key management for users.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Slf4j
 @Service
 @RequiredArgsConstructor

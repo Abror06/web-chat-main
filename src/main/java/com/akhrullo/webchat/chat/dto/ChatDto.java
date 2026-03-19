@@ -9,13 +9,6 @@ import lombok.Data;
 import lombok.Builder;
 
 
-/**
- * The {@code ChatDto} class is a data transfer object for chat information,
- * including chat ID, name, image, and associated partner.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

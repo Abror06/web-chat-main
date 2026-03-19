@@ -4,12 +4,6 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 
-/**
- * Data Transfer Object (DTO) for transferring attachment information.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class AttachmentDto {

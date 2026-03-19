@@ -9,14 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Represents the details of a user for Spring Security authentication.
- *
- * <p>Provides methods to access user information and authorities.</p>
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 public record CustomUserDetails(User user) implements UserDetails {
     public static CustomUserDetails from(User user) {
         return new CustomUserDetails(user);

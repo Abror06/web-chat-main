@@ -5,13 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-/**
- * Repository interface for managing {@link UserKeys} entities.
- * Provides methods to access and manage user key pairs stored in the database.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 public interface UserKeysRepository extends JpaRepository<UserKeys, Long> {
 
     /**

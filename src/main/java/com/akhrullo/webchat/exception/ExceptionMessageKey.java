@@ -6,12 +6,6 @@ import com.akhrullo.webchat.contact.Contact;
 import com.akhrullo.webchat.user.User;
 import lombok.experimental.UtilityClass;
 
-/**
- * Utility class {@code ExceptionMessageKey} presents keys by which messages will be taken from properties files.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @UtilityClass
 public class ExceptionMessageKey {
 

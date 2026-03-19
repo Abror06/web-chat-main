@@ -3,12 +3,6 @@ package com.akhrullo.webchat.attachment;
 import com.akhrullo.webchat.user.User;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * Service interface for handling attachment-related operations.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 public interface AttachmentService {
 
     /**

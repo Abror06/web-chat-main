@@ -16,14 +16,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-/**
- * The {@code ChatServiceImpl} class implements the {@link ChatService} interface,
- * providing business logic for managing chats, including creation, retrieval,
- * and user management within chats.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Service
 @RequiredArgsConstructor
 public class ChatServiceImpl implements ChatService {

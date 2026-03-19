@@ -10,12 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * Data Transfer Object for creating a new message in the chat application.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

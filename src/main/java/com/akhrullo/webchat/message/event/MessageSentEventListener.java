@@ -7,13 +7,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-/**
- * The {@code MessageSentEventListener} class listens for {@code MessageSentEvent} events
- * and triggers notifications to the message receiver.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
+
 @Component
 @RequiredArgsConstructor
 public class MessageSentEventListener {

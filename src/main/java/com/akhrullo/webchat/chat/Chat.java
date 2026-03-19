@@ -26,15 +26,6 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The {@code Chat} class represents a chat entity, including details such as
- * chat ID, name, image, type, participants, and associated messages.
- *
- * <p>This entity supports both private and group chats.</p>
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Entity
 @Getter
 @Setter

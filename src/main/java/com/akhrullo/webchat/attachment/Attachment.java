@@ -13,12 +13,6 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
-/**
- * Represents an attachment associated with a message, storing metadata like original name, file type, and path.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Getter
 @Setter
 @NoArgsConstructor

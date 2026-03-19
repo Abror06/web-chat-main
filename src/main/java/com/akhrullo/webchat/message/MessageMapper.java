@@ -9,14 +9,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-/**
- * The {@code MessageMapper} interface provides mapping methods to convert between
- * {@code Message}, {@code CreateMessageDto}, and {@code MessageDto} objects.
- * It uses MapStruct for the mapping implementations.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Mapper(componentModel = "spring",
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)

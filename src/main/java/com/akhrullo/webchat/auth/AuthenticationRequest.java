@@ -8,12 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Request DTO representing the authentication request with user credentials.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Data
 @Builder
 @AllArgsConstructor

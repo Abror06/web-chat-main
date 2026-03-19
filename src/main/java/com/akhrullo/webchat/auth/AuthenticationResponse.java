@@ -8,12 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Response DTO representing the authentication response containing access and refresh tokens.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Data
 @Builder
 @AllArgsConstructor

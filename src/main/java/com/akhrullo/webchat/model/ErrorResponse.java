@@ -8,12 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.Map;
 
-/**
- * Class {@code } presents ...
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

@@ -26,12 +26,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
-/**
- * The {@code MessageServiceImpl} class provides the implementation of the {@code MessageService} interface.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.1
- */
 @Slf4j
 @Service
 @RequiredArgsConstructor

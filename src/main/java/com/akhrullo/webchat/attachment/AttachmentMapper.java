@@ -6,12 +6,6 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.Named;
 
-/**
- * Mapper interface for converting between Attachment entities and AttachmentDto.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Mapper(componentModel = "spring",
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)

@@ -19,17 +19,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Represents a token used for authentication.
- * <p>
- * This class encapsulates the properties of an authentication token,
- * including its unique identifier, value, type, and status indicators
- * for revocation and expiration.
- * </p>
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Getter
 @Setter
 @Builder

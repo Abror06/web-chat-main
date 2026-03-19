@@ -6,13 +6,6 @@ import com.akhrullo.webchat.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- * The {@code NotificationService} class is responsible for notifying users about new messages.
- * It currently handles notifications via email, but can be extended to include other notification mechanisms.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Service
 @RequiredArgsConstructor
 public class NotificationService {

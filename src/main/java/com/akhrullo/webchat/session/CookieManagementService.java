@@ -4,12 +4,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 
-/**
- * Service for managing HTTP cookies for access and refresh tokens.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Service
 public class CookieManagementService {
     private static final String ACCESS_TOKEN_COOKIE_NAME = "accessToken";

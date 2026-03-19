@@ -19,14 +19,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-/**
- * The {@code Message} class represents a message entity in the chat application.
- * It extends {@code AuditingEntity} to inherit auditing capabilities such as
- * creation and modification timestamps.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Getter
 @Setter
 @Entity

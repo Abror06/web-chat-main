@@ -12,17 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-/**
- * Handles the successful authentication of OAuth2 users.
- * This class extends {@link SimpleUrlAuthenticationSuccessHandler} to
- * customize the behavior after a successful OAuth2 authentication.
- * It generates JWT tokens, revokes any previous tokens, and sets
- * the access and refresh tokens as cookies in the HTTP response.
- * Finally, it redirects the user to the specified URL.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Component
 @RequiredArgsConstructor
 public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {

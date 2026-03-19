@@ -16,12 +16,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-/**
- * Class {@code } presents ...
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor

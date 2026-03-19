@@ -7,12 +7,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * TokenRepository provides methods to interact with the Token data model.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 public interface TokenRepository extends JpaRepository<Token, Long> {
 
     Optional<Token> findByToken(String token);

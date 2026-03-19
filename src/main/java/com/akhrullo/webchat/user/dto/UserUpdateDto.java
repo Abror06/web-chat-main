@@ -13,14 +13,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Class {@code UserUpdateDto} represents the DTO for updating a user's profile.
- * It contains the fields that can be updated for an existing user.
- * This DTO includes validation constraints to ensure the fields are provided correctly.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.1
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

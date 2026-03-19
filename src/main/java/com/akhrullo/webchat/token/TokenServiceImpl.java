@@ -7,9 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * Service class responsible for handling token-related operations.
- */
 @Service
 public class TokenServiceImpl implements TokenService {
 

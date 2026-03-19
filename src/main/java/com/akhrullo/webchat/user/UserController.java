@@ -16,14 +16,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 
-/**
- * Class {@code UserController} handles HTTP requests related to user management.
- * It provides endpoints for retrieving and updating user profiles.
- * This controller uses the {@link UserService} to perform operations on users.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/users")

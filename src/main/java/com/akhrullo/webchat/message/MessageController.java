@@ -21,22 +21,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * The {@code MessageController} class handles incoming HTTP requests related to messages.
- * It provides endpoints for sending messages, retrieving messages by chat, marking messages as read,
- * and downloading message attachments.
- *
- * <p>APIs:</p>
- * <ul>
- *   <li>Send a message with optional attachment.</li>
- *   <li>Get messages by chat ID with pagination.</li>
- *   <li>Mark messages in a chat as read.</li>
- *   <li>Download an attachment from a message.</li>
- * </ul>
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.1
- */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/messages")

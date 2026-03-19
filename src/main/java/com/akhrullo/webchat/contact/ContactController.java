@@ -20,14 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Class {@code ContactController} handles HTTP requests related to contact management.
- * It provides endpoints for adding, searching, retrieving, and deleting contacts.
- * This controller uses the {@link ContactService} to perform operations on contacts.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.1
- */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/contacts")

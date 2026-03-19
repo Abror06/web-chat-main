@@ -11,13 +11,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Represents a request for user registration.
- * Contains the necessary information required to create a new user account.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Data
 @Builder
 @AllArgsConstructor

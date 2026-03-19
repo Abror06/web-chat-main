@@ -8,13 +8,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import java.util.Collection;
 import java.util.Map;
 
-/**
- * Represents a custom implementation of {@link OAuth2User} that holds user
- * information and attributes from the OAuth2 authentication process..
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Getter
 public class CustomOAuth2User implements OAuth2User {
     private final User user;

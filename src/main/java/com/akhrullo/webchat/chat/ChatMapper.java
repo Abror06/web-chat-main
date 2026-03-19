@@ -11,15 +11,6 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 
-/**
- * The {@code ChatMapper} interface maps between {@link Chat} entities and
- * {@link ChatDto} data transfer objects using MapStruct.
- *
- * @see Chat
- * @see ChatDto
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Mapper(componentModel = "spring",
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)

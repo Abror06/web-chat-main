@@ -14,12 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-/**
- * Class {@code } presents ...
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {

@@ -16,17 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-/**
- * Service that handles the loading and processing of OAuth2 user details
- * from an OAuth2 authentication request.
- * This service integrates with the user repository to either register new users
- * or update existing user information based on their OAuth2 account details.
- * It implements the {@link OAuth2UserService} interface to provide
- * functionality for managing OAuth2 users.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {

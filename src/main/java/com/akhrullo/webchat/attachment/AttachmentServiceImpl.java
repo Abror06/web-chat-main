@@ -10,12 +10,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 
-/**
- * Implementation of {@link AttachmentService}
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Service
 @RequiredArgsConstructor
 public class AttachmentServiceImpl implements AttachmentService {

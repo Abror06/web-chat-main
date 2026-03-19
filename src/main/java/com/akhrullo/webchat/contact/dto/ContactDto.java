@@ -7,12 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Class {@code ContactDto} represents the DTO for a contact.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.1
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

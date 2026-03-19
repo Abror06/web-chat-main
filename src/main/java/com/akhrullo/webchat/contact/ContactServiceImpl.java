@@ -15,13 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 
-/**
- * Class {@code ContactServiceImpl} is implementation of interface {@link ContactService}
- * and intended to work with {@link Contact} objects.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
+
 @Service
 @RequiredArgsConstructor
 public class ContactServiceImpl implements ContactService {

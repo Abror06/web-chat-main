@@ -16,13 +16,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Represents the public and encrypted private key pair for a user.
- * This entity stores the RSA public key and the AES-encrypted private key.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Entity
 @Table(name = "user_keys")
 @Getter

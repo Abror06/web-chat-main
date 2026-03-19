@@ -8,12 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * DTO representing a chat partner, including contact details and identifiers.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -10,14 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * The {@code ChatController} class handles HTTP requests related to chat
- * operations, including creating chats, retrieving chat details, and
- * fetching users in a chat.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @RestController
 @RequestMapping("/api/v1/chats")
 @RequiredArgsConstructor

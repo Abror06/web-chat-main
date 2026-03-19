@@ -24,13 +24,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
-/**
- * Service responsible for generating, encrypting, and managing RSA key pairs
- * for users. It also handles AES encryption of private keys for secure storage.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
+
 @Slf4j
 @Service
 @RequiredArgsConstructor

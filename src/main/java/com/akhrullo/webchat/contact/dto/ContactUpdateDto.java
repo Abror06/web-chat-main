@@ -9,13 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Class {@code ContactUpdateDto} represents the DTO for updating a contact.
- * It contains the fields that can be modified when updating an existing contact.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

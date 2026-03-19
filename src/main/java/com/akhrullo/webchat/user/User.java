@@ -25,14 +25,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-/**
- * Represents a user in the web chat application.
- * Contains essential information such as first name, last name, password, email, state, and role.
- * Each user can own a set of contacts.
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Getter
 @Setter
 @Builder

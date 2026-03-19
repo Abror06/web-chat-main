@@ -15,13 +15,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Base64;
 
-/**
- * Service to handle encryption and decryption using hybrid cryptography
- * (AES for message encryption, RSA for key encryption).
- *
- * @author Akhrullo Ibrokhimov
- * @version 1.0
- */
 @Slf4j
 @Service
 @RequiredArgsConstructor
